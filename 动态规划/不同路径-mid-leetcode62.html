@@ -1,3 +1,24 @@
 <script>
-  
+  // 找出状态转移方程
+  // 不同规模下相同问题的关系
+  // 具体：进入当前格，只有从当前格的上方进入或者从左侧进入（所以就是上左两个格子路线的和）<关系>
+  //      那么当前格的上方格子或左侧格子进入方法亦是如此  <不同规模下的相同问题>
+  // 方程：uniquePaths(m,n) = uniquePaths(m-1,n)  + uniquePaths(m,n-1)
+  // 特殊解：当n=1，或m=1时，就是一条直线，解为1
+
+  function uniquePaths(m, n) {
+    const dp = []
+    for (let i = 1; i <= m; i++) {
+      dp[i] = []
+      for (let j = 1; j <= n; j++) {
+        if (i === 1 || j === 1) {
+          dp[i][j] = 1
+        } else {
+          dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+        }
+      }
+    }
+    console.log(dp)
+    return dp[m][n]
+  }
 </script>
