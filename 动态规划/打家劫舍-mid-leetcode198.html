@@ -1,0 +1,41 @@
+<script>
+  var rob = function (nums) {
+    return robByIndex(nums, nums.length - 1)
+  };
+
+  // 从后往前推
+  // 就是用不用最后一项的问题
+  // 用的话就是 倒数第三项之前的和加最后一项
+  // 不用的话就是 倒数第二项之前的和
+  // 比较他们的大小就能得出当前数组的最大收获
+  function robByIndex(nums, lastIndex) {
+    if (lastIndex <= 0) {
+      return nums[0]
+    }
+    else if (lastIndex === 1) {
+      return Math.max(nums[0], nums[1])
+    }
+    const sum1 = robByIndex(nums, lastIndex - 2) + nums[lastIndex]
+    const sum2 = robByIndex(nums, lastIndex - 1)
+    return Math.max(sum1, sum2)
+  }
+  console.log(rob([1, 2, 3, 1]))
+
+
+  function robDP(nums) {
+    const dp = []
+    const lastIndex = nums.length - 1
+    for (let i = 0; i <= lastIndex; i++) {
+      if (i === 0) {
+        dp[i] = nums[i]
+      } else if (i === 1) {
+        dp[i] = Math.max(nums[0], nums[1])
+      } else {
+        const sum1 = dp[i - 2] + nums[i]
+        const sum2 = dp[i - 1]
+        dp[i] = Math.max(sum1, sum2)
+      }
+    }
+    return dp[lastIndex]
+  }
+</script>
