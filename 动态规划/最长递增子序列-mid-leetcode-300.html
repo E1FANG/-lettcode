@@ -1,4 +1,8 @@
 <script>
+  // 关于无后效性
+  // 你的状态转移方程一定不能受到之后的结果影响
+  // 所以要适当的考虑是从前往后推，还是从后往前推。
+
   // 列举两个不同规模的数组
   // [10,9,2,5,3,7,101,18]  [2,3,7,101]  4
   // [10,9,2,5,3,7]         [2,3,7]      3
@@ -16,25 +20,50 @@
   // 得出状态转移方程：
   // fn(sum,i) = fn(sum,i-1) + sum[i]>sum[i-1]?1:0
 
+  // 边界情况
+  // 如果i比之前的都小，则返回1
+
   function getNums(nums) {
     // const length = nums.length
-    return fn(nums, nums.length - 1)
+    return fn(nums, 0)
   }
 
   function fn(nums, i) {
-    if (i === 0) return 1
-    if (i === nums.length) return
+    // if (i === 0) return 1
+    if (i === nums.length) return 0
 
-    // return fn(i) + 
-    if (nums[i] < Math.min(...nums.slice(0, i + 1))) {
-      console.log(nums[i], Math.min(...nums.slice(0, i + 1)))
-      return fn(nums, i - 1)
+    if (i === 0) {
+      return fn(nums, i + 1)
     }
-    return fn(nums, i - 1) + (nums[i] > nums[i - 1] ? 1 : 0)
+
+    console.log(nums.slice(0, i), i)
+    if (nums[i] < Math.min(...nums.slice(0, i))) {
+      console.log('inner')
+      return fn(nums, i + 1) + 1
+    }
+    return fn(nums, i + 1) + (nums[i] > nums[i - 1] ? 1 : 0)
   }
 
-  // console.log(getNums([10, 9, 2, 5, 3, 7, 101, 18]))
-  // console.log(getNums([0, 1, 0, 3, 2, 3, 5, 4]))
-  console.log(getNums([4, 10, 4, 3, 8, 9]))
+  console.log(getNums([10, 9, 2, 5, 3, 7, 101, 18])) // 4
+  // console.log(getNums([0, 1, 0, 3, 2, 3, 5, 4])) //5
+  // console.log(getNums([4, 10, 4, 3, 8, 9]))  //3
+
+
+  function lengthOfLIS(nums) {
+    const dfs = (i, last) => {
+      if (i === nums.length) return 1
+
+      let len = dfs(i + 1, last)
+      if (nums[i] > last) len = Math.max(len, dfs(i + 1, nums[i]) + 1)
+      return len
+    }
+
+    let res = 0
+    for (let i = 0; i < nums.length; i++) {
+      res = Math.max(res, dfs(i, nums[i]))
+    }
+
+    return res
+  }
 
 </script>
