@@ -1,0 +1,31 @@
+<script>
+  // 编写一个函数来查找字符串数组中的最长公共前缀。
+
+  // 如果不存在公共前缀，返回空字符串 ""。
+
+  // 示例 1：
+
+  // 输入：strs = ["flower","flow","flight"]
+  // 输出："fl"
+  // 示例 2：
+
+  // 输入：strs = ["dog","racecar","car"]
+  // 输出：""
+  // 解释：输入不存在公共前缀。
+
+  function fn(strs) {
+    const first = Array.from(strs[0])
+    if (!first) return ''
+
+    let result = ''
+    for (let i = 0; i < first.length; i++) {
+      const letter = first[i]
+      if (strs.map(str => str[i] === letter).every(res => res === true)) {
+        result = result.concat(letter)
+      } else {
+        break
+      }
+    }
+    return result
+  }
+</script>
