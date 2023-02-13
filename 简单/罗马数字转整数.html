@@ -19,8 +19,9 @@
     const arr = [...s]
     return arr.reduce((p, c, i) => {
       const value = map[c]
-      const valueMax = arr[i + 1] ? map[c + arr[i + 1]] : null
-      const indeed = valueMax ? (valueMax - map[arr[i + 1]]) : value
+      const valueMix = arr[i + 1] ? map[c + arr[i + 1]] : null
+      // 如果是混合值，则需要把下一个值减回去，因为在下一个循环会加回来
+      const indeed = valueMix ? (valueMix - map[arr[i + 1]]) : value
       return p + indeed
     }, 0)
   }
