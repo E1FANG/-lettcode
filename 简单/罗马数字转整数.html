@@ -1,0 +1,27 @@
+<script>
+  const map = {
+    I: 1,
+    V: 5,
+    X: 10,
+    L: 50,
+    C: 100,
+    D: 500,
+    M: 1000,
+    IV: 4,
+    IX: 9,
+    XL: 40,
+    XC: 90,
+    CD: 400,
+    CM: 900
+  }
+
+  function fn(s) {
+    const arr = [...s]
+    return arr.reduce((p, c, i) => {
+      const value = map[c]
+      const valueMax = arr[i + 1] ? map[c + arr[i + 1]] : null
+      const indeed = valueMax ? (valueMax - map[arr[i + 1]]) : value
+      return p + indeed
+    }, 0)
+  }
+</script>
